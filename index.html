@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PlanTrace — Blueprint Markup &amp; Takeoff for iPad and Mac</title>
+<meta name="description" content="Mark up drawing sets, measure takeoffs, and run punch lists on one PDF. Works fully offline. No account, no subscription. One-time purchase for iPad and Mac.">
+<link rel="canonical" href="https://plantrace.live/">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/icon-64.png">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="apple-itunes-app" content="app-id=6762520593">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PlanTrace — Blueprint Markup &amp; Takeoff">
+<meta property="og:description" content="Mark up, measure, and walk the job on one PDF. Offline. No subscription. iPad and Mac.">
+<meta property="og:url" content="https://plantrace.live/">
+<meta property="og:image" content="https://plantrace.live/assets/ipad-markup.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#242836">
+<style>
+  :root{
+    --navy:#242836; --navy-2:#1c1f2b; --navy-3:#2e3345; --line:rgba(255,255,255,.09);
+    --ink:#ffffff; --ink-2:#b9bdc9; --ink-3:#7f8495;
+    --orange:#f5841f; --orange-2:#ffa24a;
+    --max:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--navy);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;height:auto;display:block}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .orange{color:var(--orange)}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:20;background:rgba(36,40,54,.85);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.3px}
+  .brand img{width:32px;height:32px;border-radius:8px}
+  .brand .word span{color:var(--orange)}
+  nav ul{display:flex;gap:28px;list-style:none;font-size:15px;color:var(--ink-2)}
+  nav ul a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:#1a1200;font-weight:700;padding:10px 18px;border-radius:10px;font-size:15px;transition:background .15s}
+  .btn:hover{background:var(--orange-2)}
+  @media (max-width:760px){nav ul{display:none}}
+
+  /* hero */
+  .hero{padding:72px 0 40px;text-align:center}
+  .hero h1{font-size:clamp(38px,6vw,72px);font-weight:800;letter-spacing:-1.5px;line-height:1.02;max-width:900px;margin:0 auto 18px}
+  .hero p.lead{font-size:clamp(18px,2.2vw,24px);color:var(--ink-2);max-width:760px;margin:0 auto 30px}
+  .badges{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+  .badge{display:inline-flex;align-items:center;gap:10px;background:#000;color:#fff;border:1px solid #6b6f7d;border-radius:9px;padding:8px 16px 8px 12px;min-width:200px;text-align:left;transition:transform .12s,border-color .12s}
+  .badge:hover{transform:translateY(-1px);border-color:#a0a4b2}
+  .badge svg{width:26px;height:30px;fill:#fff;flex:none}
+  .badge small{display:block;font-size:11px;line-height:1;letter-spacing:.2px;opacity:.9}
+  .badge b{display:block;font-size:19px;line-height:1.15;font-weight:600;letter-spacing:-.2px}
+  .hero .fine{color:var(--ink-3);font-size:14px}
+  .hero-shots{position:relative;margin:48px auto 0;max-width:1180px}
+  .hero-shots .ipad{width:74%;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .hero-shots .mac{position:absolute;right:0;bottom:-28px;width:48%;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.08)}
+  @media (max-width:760px){.hero-shots .ipad{width:100%}.hero-shots .mac{display:none}}
+
+  /* trust strip */
+  .strip{margin-top:84px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--navy-2)}
+  .strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:26px 24px}
+  .strip div{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--ink-2)}
+  .strip b{display:block;color:var(--ink);font-size:16px;margin-bottom:2px}
+  .strip svg{width:22px;height:22px;flex:none;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+  @media (max-width:900px){.strip .wrap{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:520px){.strip .wrap{grid-template-columns:1fr}}
+
+  /* who */
+  .who{padding:72px 0 10px;text-align:center}
+  .who h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.8px;margin-bottom:12px}
+  .who p{color:var(--ink-2);font-size:18px;max-width:720px;margin:0 auto 28px}
+  .roles{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  .roles span{border:1px solid var(--line);background:var(--navy-3);border-radius:999px;padding:8px 16px;font-size:14px;color:var(--ink-2)}
+
+  /* features */
+  .feature{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:72px 0}
+  .feature:nth-child(even) .copy{order:2}
+  .feature .copy h3{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.7px;line-height:1.1;margin-bottom:14px}
+  .feature .copy p{color:var(--ink-2);font-size:17px;margin-bottom:18px}
+  .feature ul{list-style:none;color:var(--ink-2);font-size:15.5px}
+  .feature li{padding-left:24px;position:relative;margin-bottom:8px}
+  .feature li::before{content:"";position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:50%;background:var(--orange)}
+  .feature .shot{border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.07)}
+  .feature .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+  @media (max-width:860px){.feature{grid-template-columns:1fr;gap:28px;padding:48px 0}.feature:nth-child(even) .copy{order:0}}
+
+  /* pricing */
+  .pricing{padding:80px 0;background:var(--navy-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+  .pricing h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.8px;margin-bottom:10px}
+  .pricing p.sub{color:var(--ink-2);font-size:18px;margin-bottom:34px}
+  .card{display:inline-block;background:var(--navy);border:1px solid var(--line);border-radius:20px;padding:36px 44px;max-width:460px;width:100%;text-align:left;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  .card .price{font-size:56px;font-weight:800;letter-spacing:-2px;line-height:1}
+  .card .price small{font-size:18px;font-weight:600;color:var(--ink-2);letter-spacing:0;margin-left:6px}
+  .card ul{list-style:none;margin:22px 0 26px;color:var(--ink-2);font-size:15.5px}
+  .card li{padding-left:26px;position:relative;margin-bottom:9px}
+  .card li::before{content:"✓";position:absolute;left:0;color:var(--orange);font-weight:800}
+  .card .badges{justify-content:flex-start}
+  .vs{margin-top:34px;color:var(--ink-3);font-size:14px}
+
+  /* faq */
+  .faq{padding:80px 0}
+  .faq h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.8px;text-align:center;margin-bottom:36px}
+  .faq details{border-top:1px solid var(--line);padding:18px 0}
+  .faq details:last-child{border-bottom:1px solid var(--line)}
+  .faq summary{cursor:pointer;font-size:18px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";color:var(--orange);font-size:24px;font-weight:300}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{color:var(--ink-2);margin-top:10px;font-size:16px;max-width:820px}
+  .faq .wrap{max-width:880px}
+
+  /* cta + footer */
+  .cta{text-align:center;padding:40px 0 80px}
+  .cta h2{font-size:clamp(28px,4vw,48px);letter-spacing:-1px;margin-bottom:22px}
+  footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink-3);font-size:14px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  footer a:hover{color:var(--ink)}
+  footer .links{display:flex;gap:22px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="assets/icon-64.png" alt=""><span class="word">Plan<span>Trace</span></span></a>
+    <ul>
+      <li><a href="#markup">Markup</a></li>
+      <li><a href="#takeoff">Takeoff</a></li>
+      <li><a href="#punch">Punch List</a></li>
+      <li><a href="#calc">Calculator</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a class="btn" href="https://apps.apple.com/app/id6762520593">Get PlanTrace</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Your drawing set, marked up, measured, and <span class="orange">walked.</span></h1>
+    <p class="lead">PlanTrace turns any construction PDF into a working set. Mark it up like paper, take off quantities in real units, run the punch list, and share a clean PDF back. Works fully offline. No account, no subscription.</p>
+    <div class="badges">
+      <a class="badge" href="https://apps.apple.com/app/id6762520593" aria-label="Download on the App Store">
+        <svg viewBox="0 0 170 170"><path d="M150.4 130.3c-2.5 5.8-5.4 11.1-8.9 16-4.7 6.7-8.6 11.3-11.5 13.9-4.6 4.2-9.5 6.4-14.8 6.5-3.8 0-8.4-1.1-13.7-3.3-5.4-2.2-10.3-3.3-14.8-3.3-4.7 0-9.8 1.1-15.3 3.3-5.5 2.2-9.9 3.4-13.3 3.5-5.1.2-10.1-2-15.1-6.7-3.2-2.8-7.2-7.6-12.1-14.4-5.2-7.3-9.5-15.8-12.9-25.5C14.4 109.8 12.6 99.7 12.6 90c0-11.2 2.4-20.8 7.3-28.9 3.8-6.5 8.9-11.6 15.2-15.4 6.3-3.8 13.2-5.7 20.5-5.8 4.1 0 9.4 1.3 16 3.7 6.6 2.5 10.8 3.7 12.7 3.7 1.4 0 6.1-1.5 14.1-4.4 7.6-2.7 14-3.8 19.2-3.4 14.2 1.1 24.9 6.7 32 16.8-12.7 7.7-19 18.5-18.9 32.3.1 10.8 4 19.7 11.7 26.9 3.5 3.3 7.4 5.9 11.7 7.7-.9 2.7-1.9 5.3-3 7.8zM119.1 6.7c0 8.4-3.1 16.2-9.2 23.4-7.4 8.6-16.3 13.6-26 12.8-.1-1-.2-2.1-.2-3.2 0-8 3.5-16.6 9.7-23.6 3.1-3.6 7.1-6.5 11.9-8.9 4.8-2.3 9.3-3.6 13.6-3.8.1 1.1.2 2.2.2 3.3z"/></svg>
+        <span><small>Download on the</small><b>App Store</b></span>
+      </a>
+      <a class="badge" href="https://apps.apple.com/app/id6762520593" aria-label="Download on the Mac App Store">
+        <svg viewBox="0 0 170 170"><path d="M150.4 130.3c-2.5 5.8-5.4 11.1-8.9 16-4.7 6.7-8.6 11.3-11.5 13.9-4.6 4.2-9.5 6.4-14.8 6.5-3.8 0-8.4-1.1-13.7-3.3-5.4-2.2-10.3-3.3-14.8-3.3-4.7 0-9.8 1.1-15.3 3.3-5.5 2.2-9.9 3.4-13.3 3.5-5.1.2-10.1-2-15.1-6.7-3.2-2.8-7.2-7.6-12.1-14.4-5.2-7.3-9.5-15.8-12.9-25.5C14.4 109.8 12.6 99.7 12.6 90c0-11.2 2.4-20.8 7.3-28.9 3.8-6.5 8.9-11.6 15.2-15.4 6.3-3.8 13.2-5.7 20.5-5.8 4.1 0 9.4 1.3 16 3.7 6.6 2.5 10.8 3.7 12.7 3.7 1.4 0 6.1-1.5 14.1-4.4 7.6-2.7 14-3.8 19.2-3.4 14.2 1.1 24.9 6.7 32 16.8-12.7 7.7-19 18.5-18.9 32.3.1 10.8 4 19.7 11.7 26.9 3.5 3.3 7.4 5.9 11.7 7.7-.9 2.7-1.9 5.3-3 7.8zM119.1 6.7c0 8.4-3.1 16.2-9.2 23.4-7.4 8.6-16.3 13.6-26 12.8-.1-1-.2-2.1-.2-3.2 0-8 3.5-16.6 9.7-23.6 3.1-3.6 7.1-6.5 11.9-8.9 4.8-2.3 9.3-3.6 13.6-3.8.1 1.1.2 2.2.2 3.3z"/></svg>
+        <span><small>Download on the</small><b>Mac App Store</b></span>
+      </a>
+    </div>
+    <p class="fine">One purchase covers iPad and Mac. Requires iPadOS 17 or macOS 14 or later.</p>
+
+    <div class="hero-shots">
+      <img class="ipad" src="assets/ipad-markup.jpg" alt="PlanTrace on iPad with a floor plan marked up with clouds, callouts, hatched areas and punch pins">
+      <img class="mac" src="assets/mac-takeoff.jpg" alt="PlanTrace on Mac showing an area takeoff with the properties panel open">
+    </div>
+  </div>
+</header>
+
+<section class="strip">
+  <div class="wrap">
+    <div><svg viewBox="0 0 24 24"><path d="M12 2 3 7v6c0 5 4 8.5 9 9 5-.5 9-4 9-9V7z"/></svg><span><b>Works offline</b>No signal on site? Doesn't matter.</span></div>
+    <div><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span><b>No account, no upload</b>Your drawings stay on your device.</span></div>
+    <div><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span><b>One-time purchase</b>No subscription. No per-seat fees.</span></div>
+    <div><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span><b>iPad and Mac</b>Pencil in the field, keyboard in the trailer.</span></div>
+  </div>
+</section>
+
+<section class="who">
+  <div class="wrap">
+    <h2>Built for the people who actually build.</h2>
+    <p>One tool for the whole crew, from the super walking the slab to the PM closing out the punch list. If you live in drawing sets, this is for you.</p>
+    <div class="roles">
+      <span>Superintendents</span><span>Foremen</span><span>Subcontractors</span><span>Project Managers</span><span>Estimators</span><span>General Contractors</span><span>Owner-builders</span><span>Inspectors</span>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <section class="feature" id="markup">
+    <div class="copy">
+      <span class="tag">Markup</span>
+      <h3>Mark it up like <span class="orange">paper.</span></h3>
+      <p>Clouds, callouts, arrows, pen notes and punch pins, right on the real PDF. Full Apple Pencil support with pressure, double-tap to erase, and squeeze to switch tools.</p>
+      <ul>
+        <li>Pen, highlighter, arrows, lines, shapes, arcs and polylines with dashed, dotted and center-line styles</li>
+        <li>Revision clouds, cloud callouts, text, stamps and signatures</li>
+        <li>Photos from the camera and voice memos pinned to a spot on the plan</li>
+        <li>Your original PDF is never modified until you choose to export</li>
+      </ul>
+    </div>
+    <div class="shot"><img src="assets/ipad-sections.jpg" alt="Section sheet marked up with revision clouds and callouts on iPad" loading="lazy"></div>
+  </section>
+
+  <section class="feature" id="scale">
+    <div class="copy">
+      <span class="tag">Auto-Scale</span>
+      <h3>The scale is on the sheet. <span class="orange">So read it.</span></h3>
+      <p>Auto-Scale finds the scale note on each page and calibrates the whole set in one tap. Every dimension after that comes out in feet and inches.</p>
+      <ul>
+        <li>Reads 1/4" = 1'-0" and metric notes off the title block</li>
+        <li>Calibrate by hand from any labeled dimension when the sheet has none</li>
+        <li>Snap to the drawing's own corners and midpoints, with an on/off switch and ortho lock</li>
+      </ul>
+    </div>
+    <div class="shot"><img src="assets/mac-auto-scale.jpg" alt="Auto-Scale dialog on Mac detecting the drawing scale" loading="lazy"></div>
+  </section>
+
+  <section class="feature" id="takeoff">
+    <div class="copy">
+      <span class="tag">Takeoff</span>
+      <h3>Know your numbers <span class="orange">before you order.</span></h3>
+      <p>Areas with hatch patterns, perimeters, linear runs, angles and item counts, all in real-world units and totaled live.</p>
+      <ul>
+        <li>Cutouts deduct openings; slab depth gives cubic yards; wall height gives wall area</li>
+        <li>Trade colors and hatch patterns so the sheet reads at a glance</li>
+        <li>Every measurement listed with totals, exported to Excel or CSV</li>
+      </ul>
+    </div>
+    <div class="shot"><img src="assets/ipad-takeoff.jpg" alt="Area takeoff on iPad with hatched rooms and totals" loading="lazy"></div>
+  </section>
+
+  <section class="feature" id="toolchest">
+    <div class="copy">
+      <span class="tag">Tool Chest</span>
+      <h3>Everyone marks up <span class="orange">the same way.</span></h3>
+      <p>Save pre-styled tools into sets and hand them to the crew. Red clouds for RFIs, blue hatch for tile, green pins for electrical. Starter sets for takeoff and field markup are included.</p>
+    </div>
+    <div class="shot"><img src="assets/mac-tool-chest.jpg" alt="Tool Chest panel on Mac with saved tool sets" loading="lazy"></div>
+  </section>
+
+  <section class="feature" id="punch">
+    <div class="copy">
+      <span class="tag">Punch List</span>
+      <h3>Walk it, pin it, <span class="orange">send it.</span></h3>
+      <p>Drop numbered punch pins anywhere on the plan, tagged by trade and status. Attach a photo and a note. Export a punch report PDF the sub can work from without the app.</p>
+    </div>
+    <div class="shot"><img src="assets/ipad-punch-list.jpg" alt="Punch list pins and the punch panel on iPad" loading="lazy"></div>
+  </section>
+
+  <section class="feature" id="calc">
+    <div class="copy">
+      <span class="tag">Construction Calculator</span>
+      <h3>Feet, inches and fractions, <span class="orange">the way you say them.</span></h3>
+      <p>Type 12' 6 1/2" plus 8' 3" and get 20' 9 1/2". Units carry through the math: length times length is square feet, times depth is cubic yards.</p>
+      <ul>
+        <li>Trade functions for concrete, stairs, rafters, studs, paint, tile, rise/run and slopes</li>
+        <li>Send a result straight into a measurement or a note</li>
+      </ul>
+    </div>
+    <div class="shot"><img src="assets/mac-calculator.jpg" alt="Construction calculator and the concrete trade function on Mac" loading="lazy"></div>
+  </section>
+
+  <section class="feature" id="share">
+    <div class="copy">
+      <span class="tag">Share</span>
+      <h3>Share it the way <span class="orange">your team needs.</span></h3>
+      <ul>
+        <li>One sheet or the whole set as a flattened PDF that opens anywhere</li>
+        <li>A .plantrace package that keeps markups editable for another PlanTrace user, and merges into their copy</li>
+        <li>Search every sheet for text, including words inside scanned images, and jump to the match</li>
+        <li>Print straight from the iPad or Mac</li>
+      </ul>
+    </div>
+    <div class="shot"><img src="assets/mac-site.jpg" alt="Site plan open in PlanTrace on Mac" loading="lazy"></div>
+  </section>
+
+</main>
+
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <h2>One price. <span class="orange">No subscription.</span></h2>
+    <p class="sub">Buy it once on the App Store and it's yours on iPad and Mac.</p>
+    <div class="card">
+      <div class="price">$29.99<small>one time</small></div>
+      <ul>
+        <li>iPad and Mac with a single purchase</li>
+        <li>Every tool included: markup, takeoff, punch list, calculator, tool chest</li>
+        <li>No account, no login, no per-seat fees</li>
+        <li>Works completely offline</li>
+        <li>Free updates</li>
+      </ul>
+      <div class="badges">
+        <a class="badge" href="https://apps.apple.com/app/id6762520593" aria-label="Download on the App Store">
+          <svg viewBox="0 0 170 170"><path d="M150.4 130.3c-2.5 5.8-5.4 11.1-8.9 16-4.7 6.7-8.6 11.3-11.5 13.9-4.6 4.2-9.5 6.4-14.8 6.5-3.8 0-8.4-1.1-13.7-3.3-5.4-2.2-10.3-3.3-14.8-3.3-4.7 0-9.8 1.1-15.3 3.3-5.5 2.2-9.9 3.4-13.3 3.5-5.1.2-10.1-2-15.1-6.7-3.2-2.8-7.2-7.6-12.1-14.4-5.2-7.3-9.5-15.8-12.9-25.5C14.4 109.8 12.6 99.7 12.6 90c0-11.2 2.4-20.8 7.3-28.9 3.8-6.5 8.9-11.6 15.2-15.4 6.3-3.8 13.2-5.7 20.5-5.8 4.1 0 9.4 1.3 16 3.7 6.6 2.5 10.8 3.7 12.7 3.7 1.4 0 6.1-1.5 14.1-4.4 7.6-2.7 14-3.8 19.2-3.4 14.2 1.1 24.9 6.7 32 16.8-12.7 7.7-19 18.5-18.9 32.3.1 10.8 4 19.7 11.7 26.9 3.5 3.3 7.4 5.9 11.7 7.7-.9 2.7-1.9 5.3-3 7.8zM119.1 6.7c0 8.4-3.1 16.2-9.2 23.4-7.4 8.6-16.3 13.6-26 12.8-.1-1-.2-2.1-.2-3.2 0-8 3.5-16.6 9.7-23.6 3.1-3.6 7.1-6.5 11.9-8.9 4.8-2.3 9.3-3.6 13.6-3.8.1 1.1.2 2.2.2 3.3z"/></svg>
+          <span><small>Download on the</small><b>App Store</b></span>
+        </a>
+      </div>
+    </div>
+    <p class="vs">Compare: most jobsite apps run $39 to $59 per user, per month. PlanTrace costs less than one month, once.</p>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <h2>Questions from the field</h2>
+    <details><summary>Does it need internet?</summary><p>No. Everything runs on the device. Open the set, mark it up, measure, and export with no signal at all. Nothing is uploaded, ever.</p></details>
+    <details><summary>Will it open my architect's PDFs?</summary><p>Yes. Any PDF, single sheet or full set, vector or scanned. Scanned sheets get a text layer from on-device OCR so search works on them too.</p></details>
+    <details><summary>Does my sub need the app to see my markups?</summary><p>No. Share a flattened PDF and it opens in anything. If they do have PlanTrace, send a .plantrace package and the markups stay editable on their end.</p></details>
+    <details><summary>Is it one purchase for iPad and Mac?</summary><p>Yes. Buy it once with your Apple ID and install it on both. Same price, same features.</p></details>
+    <details><summary>Does it work with Apple Pencil?</summary><p>Yes, and it's the best way to use it. Pressure changes line weight, double-tap erases, and the Pencil Pro squeeze switches tools. Finger and mouse work fine too.</p></details>
+    <details><summary>Where do my files live?</summary><p>On your iPad or Mac, in the Files app or Finder, right where you put them. Your original PDF is never touched. Markups are kept alongside it and flattened only when you export.</p></details>
+    <details><summary>Is there a subscription later?</summary><p>No. PlanTrace is a one-time purchase and updates are free.</p></details>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <h2>Put the whole set <span class="orange">in your hand.</span></h2>
+    <div class="badges">
+      <a class="badge" href="https://apps.apple.com/app/id6762520593" aria-label="Download on the App Store">
+        <svg viewBox="0 0 170 170"><path d="M150.4 130.3c-2.5 5.8-5.4 11.1-8.9 16-4.7 6.7-8.6 11.3-11.5 13.9-4.6 4.2-9.5 6.4-14.8 6.5-3.8 0-8.4-1.1-13.7-3.3-5.4-2.2-10.3-3.3-14.8-3.3-4.7 0-9.8 1.1-15.3 3.3-5.5 2.2-9.9 3.4-13.3 3.5-5.1.2-10.1-2-15.1-6.7-3.2-2.8-7.2-7.6-12.1-14.4-5.2-7.3-9.5-15.8-12.9-25.5C14.4 109.8 12.6 99.7 12.6 90c0-11.2 2.4-20.8 7.3-28.9 3.8-6.5 8.9-11.6 15.2-15.4 6.3-3.8 13.2-5.7 20.5-5.8 4.1 0 9.4 1.3 16 3.7 6.6 2.5 10.8 3.7 12.7 3.7 1.4 0 6.1-1.5 14.1-4.4 7.6-2.7 14-3.8 19.2-3.4 14.2 1.1 24.9 6.7 32 16.8-12.7 7.7-19 18.5-18.9 32.3.1 10.8 4 19.7 11.7 26.9 3.5 3.3 7.4 5.9 11.7 7.7-.9 2.7-1.9 5.3-3 7.8zM119.1 6.7c0 8.4-3.1 16.2-9.2 23.4-7.4 8.6-16.3 13.6-26 12.8-.1-1-.2-2.1-.2-3.2 0-8 3.5-16.6 9.7-23.6 3.1-3.6 7.1-6.5 11.9-8.9 4.8-2.3 9.3-3.6 13.6-3.8.1 1.1.2 2.2.2 3.3z"/></svg>
+        <span><small>Download on the</small><b>App Store</b></span>
+      </a>
+      <a class="badge" href="https://apps.apple.com/app/id6762520593" aria-label="Download on the Mac App Store">
+        <svg viewBox="0 0 170 170"><path d="M150.4 130.3c-2.5 5.8-5.4 11.1-8.9 16-4.7 6.7-8.6 11.3-11.5 13.9-4.6 4.2-9.5 6.4-14.8 6.5-3.8 0-8.4-1.1-13.7-3.3-5.4-2.2-10.3-3.3-14.8-3.3-4.7 0-9.8 1.1-15.3 3.3-5.5 2.2-9.9 3.4-13.3 3.5-5.1.2-10.1-2-15.1-6.7-3.2-2.8-7.2-7.6-12.1-14.4-5.2-7.3-9.5-15.8-12.9-25.5C14.4 109.8 12.6 99.7 12.6 90c0-11.2 2.4-20.8 7.3-28.9 3.8-6.5 8.9-11.6 15.2-15.4 6.3-3.8 13.2-5.7 20.5-5.8 4.1 0 9.4 1.3 16 3.7 6.6 2.5 10.8 3.7 12.7 3.7 1.4 0 6.1-1.5 14.1-4.4 7.6-2.7 14-3.8 19.2-3.4 14.2 1.1 24.9 6.7 32 16.8-12.7 7.7-19 18.5-18.9 32.3.1 10.8 4 19.7 11.7 26.9 3.5 3.3 7.4 5.9 11.7 7.7-.9 2.7-1.9 5.3-3 7.8zM119.1 6.7c0 8.4-3.1 16.2-9.2 23.4-7.4 8.6-16.3 13.6-26 12.8-.1-1-.2-2.1-.2-3.2 0-8 3.5-16.6 9.7-23.6 3.1-3.6 7.1-6.5 11.9-8.9 4.8-2.3 9.3-3.6 13.6-3.8.1 1.1.2 2.2.2 3.3z"/></svg>
+        <span><small>Download on the</small><b>Mac App Store</b></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 ROP Design. PlanTrace is a trademark of ROP Design. Apple, iPad, Mac and Apple Pencil are trademarks of Apple Inc.</div>
+    <div class="links">
+      <a href="mailto:plantracehelp@gmail.com">Support</a>
+      <a href="https://buildingarrows7.github.io/plantrace-privacy/">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
